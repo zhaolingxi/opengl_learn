@@ -1,0 +1,72 @@
+@shader_fragment
+@shader_fragment_uid=trangle01_fs
+#version 330 core
+out vec4 FragColor;
+void main()
+{
+    FragColor= vec4(1.0f, 0.5f, 0.2f, 1.0f);
+}
+@shader_end
+
+@shader_fragment
+@shader_fragment_uid=trangle02_fs
+#version 330 core
+in vec4 vertexColor;
+out vec4 FragColor;
+void main()
+{
+    FragColor= vertexColor;
+}
+@shader_end
+
+
+@shader_fragment
+@shader_fragment_uid=trangle03_fs
+#version 330 core
+uniform vec4 uniColor;  
+out vec4 FragColor;
+void main()
+{
+    FragColor= uniColor;
+}
+@shader_end
+
+
+@shader_fragment
+@shader_fragment_uid=trangle04_fs
+#version 330 core
+in vec3 vertexColor;  
+out vec4 FragColor;
+void main()
+{
+    FragColor=vec4(vertexColor,1.0f);
+}
+@shader_end
+
+
+@shader_fragment
+@shader_fragment_uid=texturebox01_fs
+#version 330 core
+out vec4 FragColor;
+in vec3 vertexColor;
+in vec2 TexCoord;
+uniform sampler2D ourTexture;
+void main()
+{
+    FragColor = texture(ourTexture, TexCoord) * vec4(vertexColor, 1.0);
+}
+@shader_end
+
+
+@shader_fragment
+@shader_fragment_uid=textureboxrotate02_fs
+#version 330 core
+layout (location = 0) in vec3 aPos;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+void main()
+{
+    gl_Position = projection * view * model * vec4(aPos, 1.0);
+}
+@shader_end

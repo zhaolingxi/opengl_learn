@@ -70,3 +70,16 @@ void main()
     gl_Position = projection * view * model * vec4(aPos, 1.0);
 }
 @shader_end
+
+
+@shader_fragment
+@shader_fragment_uid=modelLoad01_fs
+#version 330 core
+out vec4 FragColor;
+in vec2 TexCoords;
+uniform sampler2D texture_diffuse1;
+void main()
+{    
+    FragColor = texture(texture_diffuse1, TexCoords);
+}
+@shader_end

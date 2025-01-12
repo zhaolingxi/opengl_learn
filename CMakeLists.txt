@@ -48,6 +48,8 @@ if(MSVC)
 endif()
 
 set(triLibraryPath ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
+set(assertPath ${CMAKE_CURRENT_SOURCE_DIR}/opengl_learn/assert)
+add_definitions(-DASSERT_PATH="${assertPath}")
 include_directories(${triLibraryPath})
 
 

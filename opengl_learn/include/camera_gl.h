@@ -1,7 +1,18 @@
 #pragma once
 
-#include"common.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include<iostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <map>
+#include<vector>
+#include <iostream>
 
 // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
 enum CameraMovement:int {
@@ -21,10 +32,54 @@ const float ZOOM = 45.0f;
 
 class GLCamera {
 public:
-	GLCamera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
+	GLCamera(float posX, float posY, float posZ,
+        float upX, float upY, float upZ,
+        float yaw, float pitch);
+    GLCamera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), 
+        glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f),
+        float yaw = YAW, float pitch = PITCH) :
+        Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), 
+        MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+    {
+        Position = position;
+        WorldUp = up;
+        Yaw = yaw;
+        Pitch = pitch;
+        updateCameraVectors();
+    }
 	virtual ~GLCamera();
 
-private:
+
+    void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
+
+    void ProcessMouseScroll(float yoffset)
+    {
+        Zoom -= (float)yoffset;
+        if (Zoom < 1.0f)
+            Zoom = 1.0f;
+        if (Zoom > 45.0f)
+            Zoom = 45.0f;
+    }
+
+    glm::mat4 GetViewMatrix()
+    {
+        return glm::lookAt(Position, Position + Front, Up);
+    }
+
+    void ProcessKeyboard(CameraMovement direction, float deltaTime)
+    {
+        float velocity = MovementSpeed * deltaTime;
+        if (direction == FORWARD)
+            Position += Front * velocity;
+        if (direction == BACKWARD)
+            Position -= Front * velocity;
+        if (direction == LEFT)
+            Position -= Right * velocity;
+        if (direction == RIGHT)
+            Position += Right * velocity;
+    }
+
+
     // camera Attributes
     glm::vec3 Position;
     glm::vec3 Front;

@@ -148,6 +148,17 @@ void ShaderLoader::useShaderWithName(std::string name) {
 }
 
 
+int ShaderLoader::getUseId(std::string name) {
+    if (name_id_map_.empty()) {
+        return -1;
+    }
+    if (!name_id_map_.count(name)) {
+        return (name_id_map_.begin()->second);
+    }
+    return name_id_map_[name];
+}
+
+
 void ShaderLoader::setUnifromF(unsigned int programId,std::string name, float value) {
     int shaderLocation = glGetUniformLocation(programId, name.c_str());
     glUseProgram(programId);
@@ -158,4 +169,11 @@ void ShaderLoader::setMat4F(unsigned int programId, std::string name, glm::mat4 
     int shaderLocation = glGetUniformLocation(programId, name.c_str());
     glUseProgram(programId);
     glUniformMatrix4fv(shaderLocation, 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void ShaderLoader::setInt(unsigned int programId, const std::string & name, int value)
+{
+    int shaderLocation = glGetUniformLocation(programId, name.c_str());
+    glUseProgram(programId);
+    glUniform1i(glGetUniformLocation(shaderLocation, name.c_str()), value);
 }

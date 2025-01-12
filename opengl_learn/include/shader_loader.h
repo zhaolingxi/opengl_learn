@@ -21,6 +21,7 @@ public:
 	static void linkShader(unsigned int programId);
 	static void setUnifromF(unsigned int programId, std::string name, float value);
 	static void setMat4F(unsigned int programId, std::string name, glm::mat4 value);
+	static void setInt(unsigned int programId, const std::string& name, int value);
 
 
     bool hasShaderType(ShaderType type) const {
@@ -35,6 +36,8 @@ public:
 	int attachShader(std::vector<std::string> linkNames, unsigned int programId=0);
 	void deleteShader(std::vector<std::string> deleteNames);
 
+
+	int getUseId(std::string name);
 private:
 	unsigned int shader_type_{ 0 };
 	std::map<std::string, std::string> name_shader_map_;

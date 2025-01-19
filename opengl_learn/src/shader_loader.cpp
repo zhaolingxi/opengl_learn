@@ -175,5 +175,11 @@ void ShaderLoader::setInt(unsigned int programId, const std::string & name, int 
 {
     int shaderLocation = glGetUniformLocation(programId, name.c_str());
     glUseProgram(programId);
-    glUniform1i(glGetUniformLocation(shaderLocation, name.c_str()), value);
+    glUniform1i(shaderLocation, value);
+}
+
+void ShaderLoader::setVec3(unsigned int programId, const std::string& name, glm::vec3 value) {
+    int shaderLocation = glGetUniformLocation(programId, name.c_str());
+    glUseProgram(programId);
+    glUniform3fv(shaderLocation, 1, &value[0]);
 }
